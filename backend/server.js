@@ -1,3 +1,4 @@
+//server.js
 const express = require("express");
 const colors = require("colors");
 const morgan = require("morgan");
@@ -29,7 +30,12 @@ app.use("/api/doctor", doctorRoutes);
 const PORT = process.env.PORT || 8080;
 
 // listen port
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`.cyan.bold);
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`.cyan.bold);
+  });
+}
+
+module.exports = app;
+
 
