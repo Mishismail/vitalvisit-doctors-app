@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+  font-family: "Raleway", sans-serif;
+}
+
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+
+.spinner-border {
+  height: 50px;
+  width: 50px;
+}
+
+/*login and register page styles*/
+
+.login-page, .register-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.login-page form, .register-page form {
+  width: 400px;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.login-page form .d-flex, .register-page form .d-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.login-page form .d-flex a, .register-page form .d-flex a {
+  color: #1554ad;
+  text-decoration: none;
+}
+
+.login-page h1, .register-page h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1554ad;
+}
+
+.login-page .ant-form-item, .register-page .ant-form-item {
+  margin-bottom: 20px;
+}
+
+.login-page .ant-form-item-label, .register-page .ant-form-item-label {
+  font-weight: bold;
+  color: #1554ad;
+}
+
+.login-page .ant-form-item-explain, .register-page .ant-form-item-explain {
+  color: #ff4d4f;
+}
+
+.login-page .ant-form-item-has-error .ant-input, .register-page .ant-form-item-has-error .ant-input {
+  border-color: #ff4d4f;
+}
+
+.login-page .ant-form-item-has-error .ant-input:focus, .register-page .ant-form-item-has-error .ant-input:focus {
+  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
+}
+
+.login-page .btn-primary, .register-page .btn-primary {
+  width: 100%;
+  background-color: #1554ad;
+  border-color: #1554ad;
+  color: #fff;
+}
+
+.login-page .btn-primary:hover, .register-page .btn-primary:hover {
+  background-color: #0e3a78;
+  border-color: #0e3a78;
+}
+
+@media (max-width: 576px) {
+  .login-page .ant-col, .register-page .ant-col {
+    padding: 0 8px;
+  }
+}
+
