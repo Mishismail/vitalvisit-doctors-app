@@ -65,6 +65,7 @@ const HomePage = () => {
     <Layout>
       <h3 className="text-center">Home Page</h3> {/* Heading for home page */}
       <br />
+      <p>Welcome, {user.name}</p> {/* Example usage of the user variable */}
       <Row>
         {doctors && doctors.map((doctor) => (
           <DoctorList doctor={doctor} key={doctor._id} handleAccountStatus={handleAccountStatus} />
@@ -75,4 +76,5 @@ const HomePage = () => {
 };
 
 export default HomePage; // Export the HomePage component as the default export
+
 

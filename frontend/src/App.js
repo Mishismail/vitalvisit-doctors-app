@@ -7,7 +7,6 @@ import PublicRoute from "./components/PublicRoute";
 import Spinner from "./components/Spinner";
 import ApplyDoctor from "./pages/ApplyDoctor";
 import Appointments from "./pages/Appointments";
-import BookingPage from "./pages/BookingPage";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
 import NotificationPage from "./pages/NotificationPage";
@@ -67,14 +66,6 @@ function App() {
               element={
                 <ProtectedRoute roles={['doctor']}>
                   <Profile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/doctor/book-appointment/:doctorId"
-              element={
-                <ProtectedRoute roles={['user']}>
-                  <BookingPage />
                 </ProtectedRoute>
               }
             />

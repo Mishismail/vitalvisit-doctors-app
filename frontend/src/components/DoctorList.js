@@ -1,5 +1,3 @@
-// DoctorList.js
-
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -8,8 +6,13 @@ const DoctorList = ({ doctor, handleAccountStatus }) => {
   const navigate = useNavigate(); // Hook to navigate programmatically
   const { user } = useSelector((state) => state.user); // Get user information from the Redux store
 
+  // Function to handle card click
+  const handleCardClick = () => {
+    navigate(`/doctor/profile/${doctor._id}`); // Navigate to doctor's profile page
+  };
+
   return (
-    <div className="card m-2" style={{ cursor: "pointer" }}>
+    <div className="card m-2" style={{ cursor: "pointer" }} onClick={handleCardClick}>
       {/* Doctor's name in the card header */}
       <div className="card-header" style={{ textAlign: "center", fontWeight: "bold" }}>
         Dr. {doctor.firstName} {doctor.lastName}
