@@ -65,8 +65,7 @@ const Register = () => {
             { min: 8, message: "Your password must be at least 8 characters" },
             { max: 128, message: "Your password cannot exceed 128 characters" },
             {
-              pattern:
-                [/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/],
+              pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?])/,
               message:
                 "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
             },
@@ -182,6 +181,8 @@ const Register = () => {
 };
 
 export default Register;
+
+
 
 
 
