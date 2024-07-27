@@ -9,11 +9,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { hideLoading, showLoading } from "../../redux/features/alertSlice";
 import Layout from "./../../components/Layout";
 
-// Profile component to manage doctor's profile information
 const Profile = () => {
-  const { user } = useSelector((state) => state.user); // Get user information from the Redux store
-  const [doctor, setDoctor] = useState(null); // State to store doctor's information
-  const dispatch = useDispatch(); // Hook to dispatch actions to the Redux store
+  const { user } = useSelector((state) => state.user); // Get the user from Redux state
+  const [doctor, setDoctor] = useState(null); // Local state to store doctor details
+  const dispatch = useDispatch(); // Hook to dispatch actions
   const navigate = useNavigate(); // Hook to navigate programmatically
   const params = useParams(); // Hook to get URL parameters
 
@@ -21,8 +20,8 @@ const Profile = () => {
   const handleFinish = async (values) => {
     try {
       dispatch(showLoading()); // Show loading indicator
-      const starttime = values.starttime.format("HH:mm"); // Format start time
-      const endtime = values.endtime.format("HH:mm"); // Format end time
+      const starttime = values.starttime.format("HH:mm");
+      const endtime = values.endtime.format("HH:mm");
       const res = await axios.post(
         "/api/doctor/updateProfile",
         {
@@ -33,25 +32,25 @@ const Profile = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Authorization header with token
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
       dispatch(hideLoading()); // Hide loading indicator
       if (res.data.success) {
-        message.success(res.data.message); // Show success message
+        message.success(res.data.message);
         navigate("/"); // Navigate to home page
       } else {
-        message.error(res.data.message); // Show error message
+        message.error(res.data.message);
       }
     } catch (error) {
       dispatch(hideLoading()); // Hide loading indicator
-      console.log(error); // Log error
-      message.error("Something Went Wrong "); // Show error message
+      console.log(error);
+      message.error("Something Went Wrong ");
     }
   };
 
-  // Function to fetch doctor's information
+  // Function to get doctor information
   const getDoctorInfo = async () => {
     try {
       const res = await axios.post(
@@ -59,27 +58,26 @@ const Profile = () => {
         { userId: params.id },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`, // Authorization header with token
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
       if (res.data.success) {
-        setDoctor(res.data.data); // Set doctor's information in state
+        setDoctor(res.data.data); // Set doctor information to local state
       }
     } catch (error) {
-      console.log(error); // Log error
+      console.log(error);
     }
   };
 
-  // useEffect hook to fetch doctor's information on component mount
   useEffect(() => {
-    getDoctorInfo();
+    getDoctorInfo(); // Fetch doctor information on component mount
     //eslint-disable-next-line
   }, []);
 
   return (
     <Layout>
-      <h3 align="center">Manage Profile</h3> {/* Heading for managing profile */}
+      <h3 align="center">Manage Profile</h3>
       {doctor && (
         <Form
           layout="vertical"
@@ -87,11 +85,11 @@ const Profile = () => {
           className="m-3"
           initialValues={{
             ...doctor,
-            starttime: moment(doctor.starttime, "HH:mm"), // Initialize start time
-            endtime: moment(doctor.endtime, "HH:mm") // Initialize end time
+            starttime: moment(doctor.starttime, "HH:mm"),
+            endtime: moment(doctor.endtime, "HH:mm")
           }}
         >
-          <h4 className="">Personal Details :</h4> {/* Personal details section */}
+          <h4 className="">Personal Details : </h4>
           <Row gutter={20}>
             <Col xs={24} md={24} lg={8}>
               <Form.Item
@@ -100,7 +98,7 @@ const Profile = () => {
                 required
                 rules={[{ required: true }]}
               >
-                <Input type="text" placeholder="First Name" /> {/* Input for first name */}
+                <Input type="text" placeholder="First Name" />
               </Form.Item>
             </Col>
             <Col xs={24} md={24} lg={8}>
@@ -110,7 +108,7 @@ const Profile = () => {
                 required
                 rules={[{ required: true }]}
               >
-                <Input type="text" placeholder="Last Name" /> {/* Input for last name */}
+                <Input type="text" placeholder="Last Name" />
               </Form.Item>
             </Col>
             <Col xs={24} md={24} lg={8}>
@@ -120,7 +118,7 @@ const Profile = () => {
                 required
                 rules={[{ required: true }]}
               >
-                <Input type="text" placeholder="Phone Number" /> {/* Input for phone number */}
+                <Input type="text" placeholder="Phone Number" />
               </Form.Item>
             </Col>
             <Col xs={24} md={24} lg={8}>
@@ -130,12 +128,12 @@ const Profile = () => {
                 required
                 rules={[{ required: true }]}
               >
-                <Input type="email" placeholder="Email" /> {/* Input for email */}
+                <Input type="email" placeholder="Email" />
               </Form.Item>
             </Col>
             <Col xs={24} md={24} lg={8}>
               <Form.Item label="Website" name="website">
-                <Input type="text" placeholder="Website" /> {/* Input for website */}
+                <Input type="text" placeholder="Website" />
               </Form.Item>
             </Col>
             <Col xs={24} md={24} lg={8}>
@@ -145,11 +143,11 @@ const Profile = () => {
                 required
                 rules={[{ required: true }]}
               >
-                <Input type="text" placeholder="Clinic Address" /> {/* Input for address */}
+                <Input type="text" placeholder="Clinic Address" />
               </Form.Item>
             </Col>
           </Row>
-          <h4>Professional Details :</h4> {/* Professional details section */}
+          <h4>Professional Details :</h4>
           <Row gutter={20}>
             <Col xs={24} md={24} lg={8}>
               <Form.Item
@@ -158,7 +156,7 @@ const Profile = () => {
                 required
                 rules={[{ required: true }]}
               >
-                <Input type="text" placeholder="Specialization" /> {/* Input for specialization */}
+                <Input type="text" placeholder="Specialization" />
               </Form.Item>
             </Col>
             <Col xs={24} md={24} lg={8}>
@@ -168,7 +166,7 @@ const Profile = () => {
                 required
                 rules={[{ required: true }]}
               >
-                <Input type="text" placeholder="Experience" /> {/* Input for experience */}
+                <Input type="text" placeholder="Experience" />
               </Form.Item>
             </Col>
             <Col xs={24} md={24} lg={8}>
@@ -178,31 +176,31 @@ const Profile = () => {
                 required
                 rules={[{ required: true }]}
               >
-                <Input type="text" placeholder="Fee" /> {/* Input for fees per consultation */}
+                <Input type="text" placeholder="Fee" />
               </Form.Item>
             </Col>
             <Col xs={24} md={24} lg={8}>
-              <Form.Item
-                name="starttime"
-                label="Start Time"
-                rules={[{ required: true }]}
-              >
-                <TimePicker format="HH:mm" /> {/* Time picker for start time */}
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={24} lg={8}>
-              <Form.Item
-                name="endtime"
-                label="End Time"
-                rules={[{ required: true }]}
-              >
-                <TimePicker format="HH:mm" /> {/* Time picker for end time */}
-              </Form.Item>
-            </Col>
-            <Col xs={24} md={24} lg={8}></Col>
+            <Form.Item
+              name="starttime"
+              label="Start Time"
+              rules={[{ required: true }]}
+            >
+              <TimePicker format="HH:mm" />
+            </Form.Item>
+          </Col>
+          <Col xs={24} md={24} lg={8}>
+            <Form.Item
+              name="endtime"
+              label="End Time"
+              rules={[{ required: true }]}
+            >
+              <TimePicker format="HH:mm" />
+            </Form.Item>
+          </Col>
+          <Col xs={24} md={24} lg={8}></Col>
             <Col xs={24} md={24} lg={8}>
               <button className="btn btn-primary form-btn" type="submit">
-                Update {/* Update button */}
+                Update
               </button>
             </Col>
           </Row>
@@ -212,4 +210,4 @@ const Profile = () => {
   );
 };
 
-export default Profile; // Export the Profile component as the default export
+export default Profile;

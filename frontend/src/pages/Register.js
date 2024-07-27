@@ -9,36 +9,33 @@ import { hideLoading, showLoading } from "../redux/features/alertSlice";
 
 const { Option } = Select;
 
-// Register component to handle user registration
 const Register = () => {
-  const navigate = useNavigate(); // Hook to navigate programmatically
-  const dispatch = useDispatch(); // Hook to dispatch actions to the Redux store
-  const [role, setRole] = useState("user"); // State to store selected role
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [role, setRole] = useState("user");
 
-  // Function to handle form submission
   const submitHandler = async (values) => {
     try {
-      dispatch(showLoading()); // Show loading indicator
+      dispatch(showLoading());
       const { data } = await axios.post("/api/user/register", values);
-      dispatch(hideLoading()); // Hide loading indicator
+      dispatch(hideLoading());
       if (data.success) {
-        message.success("Registration Successful"); // Show success message
+        message.success("Registration Successful");
         localStorage.setItem("token", data.token); // Store token upon registration
-        navigate("/"); // Navigate to home page
+        navigate("/");
       } else {
-        message.error(data.message); // Show error message
+        message.error(data.message);
       }
     } catch (error) {
-      dispatch(hideLoading()); // Hide loading indicator
-      message.error(error.response?.data?.message || "Registration Failed"); // Show error message
+      dispatch(hideLoading());
+      message.error(error.response?.data?.message || "Registration Failed");
     }
   };
 
-  // Render the component
   return (
     <div className="register-page">
       <Form layout="vertical" onFinish={submitHandler}>
-        <h1>Register</h1> {/* Heading for registration form */}
+        <h1>Register</h1>
         <Form.Item
           label="Name"
           name="name"
@@ -48,7 +45,7 @@ const Register = () => {
             { max: 50, message: "Your name cannot exceed 50 characters" },
           ]}
         >
-          <Input /> {/* Input for name */}
+          <Input />
         </Form.Item>
         <Form.Item
           label="Email"
@@ -58,7 +55,7 @@ const Register = () => {
             { type: "email", message: "Invalid email!" },
           ]}
         >
-          <Input /> {/* Input for email */}
+          <Input />
         </Form.Item>
         <Form.Item
           label="Password"
@@ -75,7 +72,7 @@ const Register = () => {
             },
           ]}
         >
-          <Input.Password /> {/* Input for password */}
+          <Input.Password />
         </Form.Item>
         <Form.Item
           label="Role"
@@ -89,7 +86,6 @@ const Register = () => {
           </Select>
         </Form.Item>
 
-        {/* Additional fields for doctor role */}
         {role === "doctor" && (
           <>
             <Row gutter={[16, 16]}>
@@ -99,12 +95,15 @@ const Register = () => {
                   name="phone"
                   rules={[{ required: true, message: "Please input your phone number!" }]}
                 >
-                  <Input /> {/* Input for phone number */}
+                  <Input />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12}>
-                <Form.Item label="Website" name="website">
-                  <Input /> {/* Input for website */}
+                <Form.Item
+                  label="Website"
+                  name="website"
+                >
+                  <Input />
                 </Form.Item>
               </Col>
             </Row>
@@ -115,7 +114,7 @@ const Register = () => {
                   name="address"
                   rules={[{ required: true, message: "Please input your address!" }]}
                 >
-                  <Input /> {/* Input for address */}
+                  <Input />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12}>
@@ -124,7 +123,7 @@ const Register = () => {
                   name="specialization"
                   rules={[{ required: true, message: "Please input your specialization!" }]}
                 >
-                  <Input /> {/* Input for specialization */}
+                  <Input />
                 </Form.Item>
               </Col>
             </Row>
@@ -135,7 +134,7 @@ const Register = () => {
                   name="experience"
                   rules={[{ required: true, message: "Please input your experience!" }]}
                 >
-                  <Input /> {/* Input for experience */}
+                  <Input />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12}>
@@ -144,7 +143,7 @@ const Register = () => {
                   name="feesPerConsultation"
                   rules={[{ required: true, message: "Please input your fees per consultation!" }]}
                 >
-                  <Input type="number" /> {/* Input for fees per consultation */}
+                  <Input type="number" />
                 </Form.Item>
               </Col>
             </Row>
@@ -155,7 +154,7 @@ const Register = () => {
                   name="starttime"
                   rules={[{ required: true, message: "Please input your start time!" }]}
                 >
-                  <Input /> {/* Input for start time */}
+                  <Input />
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12}>
@@ -164,7 +163,7 @@ const Register = () => {
                   name="endtime"
                   rules={[{ required: true, message: "Please input your end time!" }]}
                 >
-                  <Input /> {/* Input for end time */}
+                  <Input />
                 </Form.Item>
               </Col>
             </Row>
@@ -172,9 +171,9 @@ const Register = () => {
         )}
 
         <div className="d-flex justify-content-between">
-          <Link to="/login">Already Registered? Click Here to Login</Link> {/* Link to login page */}
+          <Link to="/login">Already Registered? Click Here to Login</Link>
           <button className="btn btn-primary" type="submit">
-            Register {/* Register button */}
+            Register
           </button>
         </div>
       </Form>
@@ -182,4 +181,7 @@ const Register = () => {
   );
 };
 
-export default Register; // Export the Register component as the default export
+export default Register;
+
+
+
