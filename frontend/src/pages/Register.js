@@ -1,3 +1,5 @@
+//Register.js
+
 import { Form, Input, message, Select, Row, Col } from "antd";
 import axios from "axios";
 import React, { useState } from "react";
@@ -7,33 +9,36 @@ import { hideLoading, showLoading } from "../redux/features/alertSlice";
 
 const { Option } = Select;
 
+// Register component to handle user registration
 const Register = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [role, setRole] = useState("user");
+  const navigate = useNavigate(); // Hook to navigate programmatically
+  const dispatch = useDispatch(); // Hook to dispatch actions to the Redux store
+  const [role, setRole] = useState("user"); // State to store selected role
 
+  // Function to handle form submission
   const submitHandler = async (values) => {
     try {
-      dispatch(showLoading());
+      dispatch(showLoading()); // Show loading indicator
       const { data } = await axios.post("/api/user/register", values);
-      dispatch(hideLoading());
+      dispatch(hideLoading()); // Hide loading indicator
       if (data.success) {
-        message.success("Registration Successful");
+        message.success("Registration Successful"); // Show success message
         localStorage.setItem("token", data.token); // Store token upon registration
-        navigate("/");
+        navigate("/"); // Navigate to home page
       } else {
-        message.error(data.message);
+        message.error(data.message); // Show error message
       }
     } catch (error) {
-      dispatch(hideLoading());
-      message.error(error.response?.data?.message || "Registration Failed");
+      dispatch(hideLoading()); // Hide loading indicator
+      message.error(error.response?.data?.message || "Registration Failed"); // Show error message
     }
   };
 
+  // Render the component
   return (
     <div className="register-page">
       <Form layout="vertical" onFinish={submitHandler}>
-        <h1>Register</h1>
+        <h1>Register</h1> {/* Heading for registration form */}
         <Form.Item
           label="Name"
           name="name"
@@ -43,7 +48,7 @@ const Register = () => {
             { max: 50, message: "Your name cannot exceed 50 characters" },
           ]}
         >
-          <Input />
+          <Input /> {/* Input for name */}
         </Form.Item>
         <Form.Item
           label="Email"
@@ -53,7 +58,7 @@ const Register = () => {
             { type: "email", message: "Invalid email!" },
           ]}
         >
-          <Input />
+          <Input /> {/* Input for email */}
         </Form.Item>
         <Form.Item
           label="Password"
@@ -70,7 +75,7 @@ const Register = () => {
             },
           ]}
         >
-          <Input.Password />
+          <Input.Password /> {/* Input for password */}
         </Form.Item>
         <Form.Item
           label="Role"
@@ -84,6 +89,7 @@ const Register = () => {
           </Select>
         </Form.Item>
 
+        {/* Additional fields for doctor role */}
         {role === "doctor" && (
           <>
             <Row gutter={[16, 16]}>
@@ -93,15 +99,12 @@ const Register = () => {
                   name="phone"
                   rules={[{ required: true, message: "Please input your phone number!" }]}
                 >
-                  <Input />
+                  <Input /> {/* Input for phone number */}
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12}>
-                <Form.Item
-                  label="Website"
-                  name="website"
-                >
-                  <Input />
+                <Form.Item label="Website" name="website">
+                  <Input /> {/* Input for website */}
                 </Form.Item>
               </Col>
             </Row>
@@ -112,7 +115,7 @@ const Register = () => {
                   name="address"
                   rules={[{ required: true, message: "Please input your address!" }]}
                 >
-                  <Input />
+                  <Input /> {/* Input for address */}
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12}>
@@ -121,7 +124,7 @@ const Register = () => {
                   name="specialization"
                   rules={[{ required: true, message: "Please input your specialization!" }]}
                 >
-                  <Input />
+                  <Input /> {/* Input for specialization */}
                 </Form.Item>
               </Col>
             </Row>
@@ -132,7 +135,7 @@ const Register = () => {
                   name="experience"
                   rules={[{ required: true, message: "Please input your experience!" }]}
                 >
-                  <Input />
+                  <Input /> {/* Input for experience */}
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12}>
@@ -141,7 +144,7 @@ const Register = () => {
                   name="feesPerConsultation"
                   rules={[{ required: true, message: "Please input your fees per consultation!" }]}
                 >
-                  <Input type="number" />
+                  <Input type="number" /> {/* Input for fees per consultation */}
                 </Form.Item>
               </Col>
             </Row>
@@ -152,7 +155,7 @@ const Register = () => {
                   name="starttime"
                   rules={[{ required: true, message: "Please input your start time!" }]}
                 >
-                  <Input />
+                  <Input /> {/* Input for start time */}
                 </Form.Item>
               </Col>
               <Col xs={24} sm={12}>
@@ -161,7 +164,7 @@ const Register = () => {
                   name="endtime"
                   rules={[{ required: true, message: "Please input your end time!" }]}
                 >
-                  <Input />
+                  <Input /> {/* Input for end time */}
                 </Form.Item>
               </Col>
             </Row>
@@ -169,9 +172,9 @@ const Register = () => {
         )}
 
         <div className="d-flex justify-content-between">
-          <Link to="/login">Already Registered? Click Here to Login</Link>
+          <Link to="/login">Already Registered? Click Here to Login</Link> {/* Link to login page */}
           <button className="btn btn-primary" type="submit">
-            Register
+            Register {/* Register button */}
           </button>
         </div>
       </Form>
@@ -179,7 +182,4 @@ const Register = () => {
   );
 };
 
-export default Register;
-
-
-
+export default Register; // Export the Register component as the default export

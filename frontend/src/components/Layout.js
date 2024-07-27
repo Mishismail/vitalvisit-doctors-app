@@ -1,3 +1,5 @@
+//Layout.js
+
 import { Badge, message } from "antd";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,20 +10,20 @@ import { setUser } from "../redux/features/userSlice";
 import { MedicineBoxOutlined } from '@ant-design/icons'; // Import the desired icon
 
 const Layout = ({ children }) => {
-  const { user } = useSelector((state) => state.user);
-  const location = useLocation();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user); // Get user information from Redux store.
+  const location = useLocation(); // Hook to get the current location.
+  const navigate = useNavigate(); // Hook to navigate programmatically.
+  const dispatch = useDispatch(); // Hook to dispatch actions to the Redux store.
 
-  // logout function
+  // Function to handle user logout
   const handleLogout = () => {
-    localStorage.clear();
-    dispatch(setUser(null)); // Clear the user state
-    message.success("Logout Successfully");
-    navigate("/login");
+    localStorage.clear(); // Clear local storage
+    dispatch(setUser(null)); // Clear the user state in Redux
+    message.success("Logout Successfully"); // Display success message
+    navigate("/login"); // Navigate to login page
   };
 
-  // doctor menu
+  // Define menu items for doctors
   const doctorMenu = [
     {
       name: "Home",
@@ -40,16 +42,16 @@ const Layout = ({ children }) => {
     },
   ];
 
-  // rendering menu list
+  // Determine which menu to display based on user role
   const SidebarMenu = user?.role === "admin"
     ? adminMenu
     : user?.role === "doctor"
     ? doctorMenu
     : userMenu;
 
-    return (
+  return (
     <>
-      <div className={`main`}>
+      <div className="main">
         <div className="layout">
           <div className="sidebar">
             <div className="logo">
@@ -102,3 +104,4 @@ const Layout = ({ children }) => {
 };
 
 export default Layout;
+

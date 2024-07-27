@@ -1,3 +1,5 @@
+//App.js
+
 import { useSelector } from "react-redux";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -15,16 +17,19 @@ import Users from "./pages/admin/Users";
 import DoctorAppointments from "./pages/doctor/DoctorAppointments";
 import Profile from "./pages/doctor/Profile";
 
+// Main App component
 function App() {
-  const { loading } = useSelector((state) => state.alerts);
+  const { loading } = useSelector((state) => state.alerts); // Get loading state from Redux store
 
+  // Render the component
   return (
     <>
       <BrowserRouter>
         {loading ? (
-          <Spinner />
+          <Spinner /> // Show Spinner component if loading is true
         ) : (
           <Routes>
+            {/* Protected routes for different roles */}
             <Route
               path="/"
               element={
@@ -97,6 +102,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* Public routes */}
             <Route
               path="/login"
               element={
@@ -120,4 +126,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; // Export the App component as the default export

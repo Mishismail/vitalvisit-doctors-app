@@ -1,19 +1,29 @@
+// doctorController.js
+
 const appointmentModel = require("../models/appointmentModel");
 const doctorModel = require("../models/doctorModel");
 const userModel = require("../models/userModel");
 
+/**
+ * Controller to handle doctor application
+ */
 const applyDoctorController = async (req, res) => {
   try {
+    // Create a new doctor with status 'pending'
     const newDoctor = new doctorModel({
       ...req.body,
       userId: req.body.userId,
       status: "pending"
     });
     await newDoctor.save();
+
+    // Find the admin user
     const adminUser = await userModel.findOne({ isAdmin: true });
     if (!adminUser) {
       throw new Error("Admin user not found");
     }
+
+    // Add a notification for the admin user
     const notification = adminUser.notification || [];
     notification.push({
       type: "apply-doctor-request",
@@ -25,11 +35,14 @@ const applyDoctorController = async (req, res) => {
       },
     });
     await userModel.findByIdAndUpdate(adminUser._id, { notification });
+
+    // Send success response
     res.status(201).send({
       success: true,
       message: "Doctor Account Applied Successfully",
     });
   } catch (error) {
+    // Log and send error response
     console.log(error);
     res.status(500).send({
       success: false,
@@ -39,8 +52,12 @@ const applyDoctorController = async (req, res) => {
   }
 };
 
+/**
+ * Controller to get doctor information by user ID
+ */
 const getDoctorInfoController = async (req, res) => {
   try {
+    // Fetch doctor information using user ID
     const doctor = await doctorModel.findOne({ userId: req.body.userId });
     res.status(200).send({
       success: true,
@@ -48,6 +65,7 @@ const getDoctorInfoController = async (req, res) => {
       data: doctor,
     });
   } catch (error) {
+    // Log and send error response
     console.log(error);
     res.status(500).send({
       success: false,
@@ -57,9 +75,12 @@ const getDoctorInfoController = async (req, res) => {
   }
 };
 
-// Update Doctor Profile
+/**
+ * Controller to update doctor profile
+ */
 const updateProfileController = async (req, res) => {
   try {
+    // Update doctor profile using user ID
     const doctor = await doctorModel.findOneAndUpdate(
       { userId: req.body.userId },
       req.body,
@@ -71,6 +92,7 @@ const updateProfileController = async (req, res) => {
       data: doctor,
     });
   } catch (error) {
+    // Log and send error response
     console.log(error);
     res.status(500).send({
       success: false,
@@ -80,9 +102,12 @@ const updateProfileController = async (req, res) => {
   }
 };
 
-// Get Single Doctor
+/**
+ * Controller to get a single doctor by doctor ID
+ */
 const getDoctorByIdController = async (req, res) => {
   try {
+    // Fetch doctor information using doctor ID
     const doctor = await doctorModel.findOne({ _id: req.body.doctorId });
     res.status(200).send({
       success: true,
@@ -90,6 +115,7 @@ const getDoctorByIdController = async (req, res) => {
       data: doctor,
     });
   } catch (error) {
+    // Log and send error response
     console.log(error);
     res.status(500).send({
       success: false,
@@ -99,13 +125,18 @@ const getDoctorByIdController = async (req, res) => {
   }
 };
 
-// Doctor Appointments Controller
+/**
+ * Controller to get appointments for a doctor
+ */
 const doctorAppointmentsController = async (req, res) => {
   try {
+    // Fetch doctor information using user ID
     const doctor = await doctorModel.findOne({ userId: req.body.userId });
     if (!doctor) {
       return res.status(404).json({ success: false, message: "Doctor not found" });
     }
+
+    // Fetch appointments for the doctor
     const appointments = await appointmentModel.find({ doctorId: doctor._id }).populate('userId', 'name');
     res.status(200).json({
       success: true,
@@ -113,6 +144,7 @@ const doctorAppointmentsController = async (req, res) => {
       data: appointments,
     });
   } catch (error) {
+    // Log and send error response
     console.log(error);
     res.status(500).json({
       success: false,
@@ -122,16 +154,21 @@ const doctorAppointmentsController = async (req, res) => {
   }
 };
 
-
-// Update Appointment Status
+/**
+ * Controller to update the status of an appointment
+ */
 const updateStatusController = async (req, res) => {
   try {
     const { appointmentsId, status } = req.body;
+
+    // Update appointment status
     const appointment = await appointmentModel.findByIdAndUpdate(
       appointmentsId,
       { status },
       { new: true }
     );
+
+    // Find the user associated with the appointment and add a notification
     const user = await userModel.findOne({ _id: appointment.userId });
     let notification = user.notification || [];
     notification.push({
@@ -143,11 +180,14 @@ const updateStatusController = async (req, res) => {
       { _id: user._id },
       { $set: { notification: notification } }
     );
+
+    // Send success response
     res.status(200).send({
       success: true,
       message: "Appointment Status Updated",
     });
   } catch (error) {
+    // Log and send error response
     console.log(error);
     res.status(500).send({
       success: false,
@@ -156,7 +196,6 @@ const updateStatusController = async (req, res) => {
     });
   }
 };
-
 
 module.exports = {
   applyDoctorController,

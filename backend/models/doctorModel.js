@@ -1,5 +1,8 @@
+// doctorModel.js
+
 const mongoose = require("mongoose");
 
+// Define the schema for a doctor
 const doctorSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -56,6 +59,8 @@ const doctorSchema = new mongoose.Schema({
   },
 });
 
+// Create a Mongoose model for doctors
 const doctorModel = mongoose.model("Doctor", doctorSchema);
 
 module.exports = doctorModel;
+

@@ -1,11 +1,15 @@
+//Users.js 
+
 import { Table, message } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Layout from "./../../components/Layout";
 
 const Users = () => {
+  // State to store the list of users
   const [users, setUsers] = useState([]);
 
+  // Function to fetch users from the API
   const getUsers = async () => {
     try {
       const res = await axios.get("/api/admin/getAllUsers", {
@@ -14,13 +18,14 @@ const Users = () => {
         },
       });
       if (res.data.success) {
-        setUsers(res.data.data);
+        setUsers(res.data.data); // Update state with fetched users
       }
     } catch (error) {
-      console.log(error);
+      console.log(error); // Log any errors
     }
   };
 
+  // Function to handle blocking/unblocking a user
   const handleBlockUser = async (userId, isBlocked) => {
     const endpoint = isBlocked ? "/api/admin/unblockUser" : "/api/admin/blockUser";
     try {
@@ -34,18 +39,20 @@ const Users = () => {
         }
       );
       if (res.data.success) {
-        message.success(res.data.message);
+        message.success(res.data.message); // Show success message
         getUsers(); // Refresh users list
       }
     } catch (error) {
-      message.error("Something Went Wrong");
+      message.error("Something Went Wrong"); // Show error message
     }
   };
 
+  // Fetch users when the component mounts
   useEffect(() => {
     getUsers();
   }, []);
 
+  // Define columns for the table
   const columns = [
     {
       title: "Name",

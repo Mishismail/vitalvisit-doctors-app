@@ -1,3 +1,5 @@
+// DoctorList.snap.test.js
+
 import React from 'react';
 import renderer from 'react-test-renderer';
 import { Provider } from 'react-redux';
@@ -15,14 +17,17 @@ const store = mockStore({
   },
 });
 
+// Suppress console.error during tests
 beforeAll(() => {
   jest.spyOn(console, 'error').mockImplementation(() => {});
 });
 
+// Restore console.error after tests
 afterAll(() => {
   console.error.mockRestore();
 });
 
+// Mock doctor data
 const doctor = {
   firstName: "John",
   lastName: "Doe",
@@ -34,8 +39,10 @@ const doctor = {
   status: "pending",
 };
 
+// Mock handleAccountStatus function
 const handleAccountStatus = jest.fn();
 
+// Snapshot test for DoctorList component
 it('renders DoctorList component correctly', () => {
   const tree = renderer.create(
     <Provider store={store}>
@@ -44,8 +51,9 @@ it('renders DoctorList component correctly', () => {
       </BrowserRouter>
     </Provider>
   ).toJSON();
-  expect(tree).toMatchSnapshot();
+  expect(tree).toMatchSnapshot(); // Compare rendered component to the snapshot
 });
+
 
 
 

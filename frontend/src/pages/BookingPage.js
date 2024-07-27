@@ -1,3 +1,5 @@
+//BookingPage.js
+
 import { DatePicker, TimePicker, message } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -7,15 +9,17 @@ import Layout from "../components/Layout";
 import { hideLoading, showLoading } from "../redux/features/alertSlice";
 import "./../styles/LayoutStyles.css";
 
+// BookingPage component to handle booking appointments
 const BookingPage = () => {
-  const { user } = useSelector((state) => state.user);
-  const params = useParams();
-  const [doctors, setDoctors] = useState([]);
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
-  const [isAvailable, setIsAvailable] = useState();
-  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user); // Get user information from the Redux store
+  const params = useParams(); // Get URL parameters
+  const [doctors, setDoctors] = useState([]); // State to store doctor's information
+  const [date, setDate] = useState(""); // State to store selected date
+  const [time, setTime] = useState(""); // State to store selected time
+  const [isAvailable, setIsAvailable] = useState(); // State to store availability status
+  const dispatch = useDispatch(); // Hook to dispatch actions to the Redux store
 
+  // Function to fetch doctor's data
   const getUserData = async () => {
     try {
       const res = await axios.post(
@@ -28,16 +32,17 @@ const BookingPage = () => {
         }
       );
       if (res.data.success) {
-        setDoctors(res.data.data);
+        setDoctors(res.data.data); // Set doctor's data in state
       }
     } catch (error) {
-      console.log(error);
+      console.log(error); // Log error
     }
   };
 
+  // Function to check availability of the doctor
   const handleAvailability = async () => {
     try {
-      dispatch(showLoading());
+      dispatch(showLoading()); // Show loading indicator
       const res = await axios.post(
         "/api/user/booking-availability",
         {
@@ -51,26 +56,27 @@ const BookingPage = () => {
           },
         }
       );
-      dispatch(hideLoading());
+      dispatch(hideLoading()); // Hide loading indicator
       if (res.data.success) {
-        setIsAvailable(true);
-        message.success(res.data.message);
+        setIsAvailable(true); // Set availability status
+        message.success(res.data.message); // Show success message
       } else {
-        message.error(res.data.message);
+        message.error(res.data.message); // Show error message
       }
     } catch (error) {
-      dispatch(hideLoading());
-      console.log(error);
+      dispatch(hideLoading()); // Hide loading indicator
+      console.log(error); // Log error
     }
   };
 
+  // Function to handle booking of the appointment
   const handleBooking = async () => {
     try {
-      setIsAvailable(true);
+      setIsAvailable(true); // Set availability status
       if (!date && !time) {
-        return alert("Date & Time Required");
+        return alert("Date & Time Required"); // Show alert if date and time are not selected
       }
-      dispatch(showLoading());
+      dispatch(showLoading()); // Show loading indicator
       const res = await axios.post(
         "/api/user/book-appointment",
         {
@@ -87,27 +93,29 @@ const BookingPage = () => {
           },
         }
       );
-      dispatch(hideLoading());
+      dispatch(hideLoading()); // Hide loading indicator
       if (res.data.success) {
-        message.success(res.data.message);
+        message.success(res.data.message); // Show success message
       } else {
-        message.error(res.data.message);
+        message.error(res.data.message); // Show error message
       }
     } catch (error) {
-      dispatch(hideLoading());
-      console.log(error);
+      dispatch(hideLoading()); // Hide loading indicator
+      console.log(error); // Log error
     }
   };
 
+  // useEffect hook to fetch doctor's data on component mount
   useEffect(() => {
     getUserData();
     //eslint-disable-next-line
   }, []);
 
+  // Render the component
   return (
     <Layout>
       <div className="container">
-        <h3 className="text-center my-4">Book an Appointment</h3>
+        <h3 className="text-center my-4">Book an Appointment</h3> {/* Heading for booking page */}
         {doctors && (
           <div className="card mx-auto mb-4" style={{ maxWidth: "350px" }}>
             <div className="card-body">
@@ -161,4 +169,4 @@ const BookingPage = () => {
   );
 };
 
-export default BookingPage;
+export default BookingPage; // Export the BookingPage component as the default export

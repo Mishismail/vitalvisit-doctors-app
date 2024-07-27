@@ -1,41 +1,60 @@
-//server.js
+// server.js
+
 const express = require("express");
 const colors = require("colors");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const path = require("path");
 const userRoutes = require('./routes/userRoute');
 const adminRoutes = require("./routes/adminRoute");
 const doctorRoutes = require("./routes/doctorRoute");
 const connectDb = require("./config/db");
 
-// dotenv config
+// Load environment variables from .env file
 dotenv.config();
+
+// Connect to the database
 connectDb();
 
-// rest object
+// Create an Express application
 const app = express();
 
-// middlewares
+// Middlewares
+
+// Enable Cross-Origin Resource Sharing (CORS)
 app.use(cors());
+
+// Parse incoming JSON requests
 app.use(express.json());
+
+// HTTP request logger middleware for node.js
 app.use(morgan("dev"));
 
-// routes
+// Routes
+
+// User-related routes
 app.use("/api/user", userRoutes);
+
+// Admin-related routes
 app.use("/api/admin", adminRoutes);
+
+// Doctor-related routes
 app.use("/api/doctor", doctorRoutes);
 
-// port
+// Serve static files from the React app
+const frontendPath = path.join(__dirname, "../frontend/build");
+app.use(express.static(frontendPath));
+
+// Handle any requests that don't match the above routes by serving the React app
+app.get("*", (req, res) => {
+  res.sendFile(path.join(frontendPath, "index.html"));
+});
+
+// Define the port the server will listen on
 const PORT = process.env.PORT || 8080;
 
-// listen port
-if (process.env.NODE_ENV !== 'test') {
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`.cyan.bold);
-  });
-}
-
-module.exports = app;
-
-
+// Start the server and listen on the defined port
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`.cyan.bold);
+});

@@ -1,8 +1,10 @@
+// userModel.js
+
 const mongoose = require('mongoose');
 const Joi = require('joi');
 const zxcvbn = require('zxcvbn');
 
-// Define a schema for user input validation
+// Define a Joi schema for user input validation
 const userSchema = Joi.object({
   name: Joi.string().min(2).max(50).required(),
   email: Joi.string().email().required(),
@@ -34,7 +36,7 @@ const userSchema = Joi.object({
   })).optional(),
 });
 
-// Create a Mongoose schema
+// Define a Mongoose schema for users
 const userMongooseSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -93,14 +95,14 @@ const userMongooseSchema = new mongoose.Schema({
   },
 });
 
-// Add the Joi validation to the Mongoose schema
+// Add the Joi validation method to the Mongoose schema
 userMongooseSchema.validateUser = async function (user) {
   return userSchema.validateAsync(user);
 };
 
-// Create a Mongoose model
+// Create a Mongoose model for users
 const User = mongoose.model('User', userMongooseSchema);
 
-// Export the model
 module.exports = User;
+
 

@@ -1,3 +1,5 @@
+// userController.js
+
 const bcrypt = require("bcryptjs");
 const userModel = require('../models/userModel');
 const doctorModel = require("../models/doctorModel");
@@ -5,8 +7,9 @@ const appointmentModel = require("../models/appointmentModel");
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
 
-
-// Register Callback
+/**
+ * Register a new user or doctor
+ */
 const registerController = async (req, res) => {
   try {
     const {
@@ -50,6 +53,7 @@ const registerController = async (req, res) => {
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
+    // Create new user
     const newUser = new userModel({
       name,
       email,
@@ -106,12 +110,16 @@ const registerController = async (req, res) => {
   }
 };
 
+/**
+ * Login user
+ */
 const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
     let user = await userModel.findOne({ email });
 
     if (!user) {
+      // Check if the email belongs to a doctor
       const doctor = await doctorModel.findOne({ email });
       if (doctor) {
         user = await userModel.findById(doctor.userId);
@@ -127,6 +135,7 @@ const loginController = async (req, res) => {
       return res.status(401).send('Invalid Password');
     }
 
+    // Generate JWT token
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1d" });
     res.status(200).send({ message: "Login Success", success: true, token });
   } catch (error) {
@@ -135,9 +144,9 @@ const loginController = async (req, res) => {
   }
 };
 
-
-
-// Auth Controller
+/**
+ * Authenticate user
+ */
 const authController = async (req, res) => {
   try {
     const user = await userModel.findById(req.body.userId);
@@ -163,6 +172,9 @@ const authController = async (req, res) => {
   }
 };
 
+/**
+ * Apply for a doctor account
+ */
 const applyDoctorController = async (req, res) => {
   try {
     const {
@@ -260,7 +272,9 @@ const applyDoctorController = async (req, res) => {
   }
 };
 
-// Get All Notifications Controller
+/**
+ * Get all notifications for a user
+ */
 const getAllNotificationController = async (req, res) => {
   try {
     const user = await userModel.findById(req.body.userId);
@@ -285,7 +299,9 @@ const getAllNotificationController = async (req, res) => {
   }
 };
 
-// Delete All Notifications Controller
+/**
+ * Delete all notifications for a user
+ */
 const deleteAllNotificationController = async (req, res) => {
   try {
     const user = await userModel.findById(req.body.userId);
@@ -308,7 +324,9 @@ const deleteAllNotificationController = async (req, res) => {
   }
 };
 
-// Get All Doctors Controller
+/**
+ * Get all approved doctors
+ */
 const getAllDoctorsController = async (req, res) => {
   try {
     const doctors = await doctorModel.find({ status: "approved" });
@@ -327,7 +345,9 @@ const getAllDoctorsController = async (req, res) => {
   }
 };
 
-// Checking Availability Controller
+/**
+ * Check booking availability
+ */
 const bookingAvailabilityController = async (req, res) => {
   try {
     const date = moment(req.body.date, "DD-MM-YYYY").toISOString();
@@ -373,8 +393,9 @@ const bookingAvailabilityController = async (req, res) => {
   }
 };
 
-
-// Book Appointment Controller
+/**
+ * Book an appointment
+ */
 const bookAppointmentController = async (req, res) => {
   try {
     const { date, time, doctorId, userId, doctorInfo, userInfo, reason } = req.body;
@@ -460,7 +481,9 @@ const bookAppointmentController = async (req, res) => {
   }
 };
 
-// User Appointments Controller
+/**
+ * Get all appointments for a user
+ */
 const userAppointmentsController = async (req, res) => {
   try {
     const appointments = await appointmentModel.find({

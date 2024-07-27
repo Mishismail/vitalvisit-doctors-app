@@ -1,17 +1,22 @@
+// getAppointments.unit.test.js
+
 import { getAppointments } from '../pages/Appointments';
 import axios from 'axios';
 
 jest.mock('axios');
 
+// Suppress console.error during tests
 beforeAll(() => {
   jest.spyOn(console, 'error').mockImplementation(() => {});
 });
 
+// Restore console.error after tests
 afterAll(() => {
   console.error.mockRestore();
 });
 
 describe('getAppointments', () => {
+  // Test successful fetching of appointments
   it('fetches appointments successfully', async () => {
     const data = {
       data: {
@@ -30,6 +35,7 @@ describe('getAppointments', () => {
     expect(setAppointments).toHaveBeenCalledWith(data.data.data);
   });
 
+  // Test handling of errors during fetching of appointments
   it('handles errors', async () => {
     const errorMessage = 'Network Error';
     axios.get.mockRejectedValue(new Error(errorMessage));
@@ -43,5 +49,3 @@ describe('getAppointments', () => {
     // Add more assertions as needed to verify error handling
   });
 });
-
-
