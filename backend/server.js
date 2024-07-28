@@ -42,14 +42,15 @@ app.use("/api/admin", adminRoutes);
 // Doctor-related routes
 app.use("/api/doctor", doctorRoutes);
 
-// Serve static files from the React app
-const frontendPath = path.join(__dirname, "../frontend/build");
-app.use(express.static(frontendPath));
 
-// Handle any requests that don't match the above routes by serving the React app
-app.get("*", (req, res) => {
-  res.sendFile(path.join(frontendPath, "index.html"));
-});
+// Serve static assets if in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'frontend', 'build')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
+  });
+}
 
 // Define the port the server will listen on
 const PORT = process.env.PORT || 8080;
