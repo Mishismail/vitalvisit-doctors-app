@@ -14,7 +14,7 @@
 8. [Security Measures](#security-measures)
 9. [Third-Party APIs](#third-party-apis)
 10. [Deployment Details](#deployment-details)
-11. [Wireframes](#wireframes)
+11. [Screenshots](#screenshots)
 
 ## Introduction
 The Vital Visit Doctor Appointment Booking System is a web application designed to streamline the process of booking appointments with doctors. Patients can browse through a list of doctors and book appointments. Doctors can view their schedules, manage their availability, and approve or reject appointment requests. Admins can manage the list of doctors and users, approve or reject doctor applications, and block users if needed. The system aims to simplify the appointment booking process for patients, doctors, and admins, making it more efficient and user-friendly.
@@ -33,7 +33,7 @@ The Vital Visit Doctor Appointment Booking System is a web application designed 
 
 ### System Architecture Diagram
 
-[System Architecture Diagram](bit.ly/VitalVisitDiagram)
+[System Architecture Diagram](https://bit.ly/VitalVisitDiagram)
 
 ## System Requirements Specification
 
