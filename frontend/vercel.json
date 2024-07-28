@@ -10,7 +10,7 @@
     "routes": [
       {
         "src": "/api/(.*)",
-        "dest": "https://your-backend-url.vercel.app/api/$1"
+        "dest": "https://vitalvisit-doctors-app-backend.vercel.app/"
       },
       {
         "src": "/(.*)",
