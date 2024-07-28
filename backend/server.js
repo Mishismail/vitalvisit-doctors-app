@@ -6,9 +6,9 @@ const morgan = require("morgan");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const path = require("path");
-const userRoutes = require('./routes/userRoute');
-const adminRoutes = require("./routes/adminRoute");
-const doctorRoutes = require("./routes/doctorRoute");
+const userRoutes = require('./routes/userRoute.js');
+const adminRoutes = require("./routes/adminRoute.js");
+const doctorRoutes = require("./routes/doctorRoute.js");
 const connectDb = require("./config/db");
 
 // Load environment variables from .env file
