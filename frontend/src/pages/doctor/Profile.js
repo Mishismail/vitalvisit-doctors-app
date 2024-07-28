@@ -5,7 +5,7 @@ import axios from "axios";
 import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // Removed useParams import
 import { hideLoading, showLoading } from "../../redux/features/alertSlice";
 import Layout from "./../../components/Layout";
 
@@ -14,7 +14,6 @@ const Profile = () => {
   const [doctor, setDoctor] = useState(null); // Local state to store doctor details
   const dispatch = useDispatch(); // Hook to dispatch actions
   const navigate = useNavigate(); // Hook to navigate programmatically
-  const params = useParams(); // Hook to get URL parameters
 
   // Function to handle form submission
   const handleFinish = async (values) => {
@@ -55,7 +54,7 @@ const Profile = () => {
     try {
       const res = await axios.post(
         "/api/doctor/getDoctorInfo",
-        { userId: user._id }, // Ensure it uses user._id instead of params.id
+        { userId: user._id }, // Ensure it uses user._id
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -180,24 +179,24 @@ const Profile = () => {
               </Form.Item>
             </Col>
             <Col xs={24} md={24} lg={8}>
-            <Form.Item
-              name="starttime"
-              label="Start Time"
-              rules={[{ required: true }]}
-            >
-              <TimePicker format="HH:mm" />
-            </Form.Item>
-          </Col>
-          <Col xs={24} md={24} lg={8}>
-            <Form.Item
-              name="endtime"
-              label="End Time"
-              rules={[{ required: true }]}
-            >
-              <TimePicker format="HH:mm" />
-            </Form.Item>
-          </Col>
-          <Col xs={24} md={24} lg={8}></Col>
+              <Form.Item
+                name="starttime"
+                label="Start Time"
+                rules={[{ required: true }]}
+              >
+                <TimePicker format="HH:mm" />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={24} lg={8}>
+              <Form.Item
+                name="endtime"
+                label="End Time"
+                rules={[{ required: true }]}
+              >
+                <TimePicker format="HH:mm" />
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={24} lg={8}></Col>
             <Col xs={24} md={24} lg={8}>
               <button className="btn btn-primary form-btn" type="submit">
                 Update

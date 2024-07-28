@@ -90,6 +90,12 @@ const updateProfileController = async (req, res) => {
       req.body,
       { new: true }
     );
+    if (!doctor) {
+      return res.status(404).send({
+        success: false,
+        message: "Doctor not found",
+      });
+    }
     res.status(201).send({
       success: true,
       message: "Doctor Profile Updated",
@@ -215,5 +221,7 @@ module.exports = {
   doctorAppointmentsController,
   updateStatusController,
 };
+
+
 
 
