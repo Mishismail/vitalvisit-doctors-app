@@ -1,4 +1,4 @@
-# Doctor Appointment Booking System
+# Vital Visit Doctor Appointment Booking System
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -180,7 +180,7 @@ The application will be deployed using [Vercel](https://vercel.com/) for both th
 ### Local Installation Instructions
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/Mishismail/doctor-appointment-booking-system.git
+   git clone https://github.com/Mishismail/vitalvisit-doctors-app.git
    cd doctor-appointment-booking-system
 
 2. **Install Dependencies**:
