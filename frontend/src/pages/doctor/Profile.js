@@ -55,7 +55,7 @@ const Profile = () => {
     try {
       const res = await axios.post(
         "/api/doctor/getDoctorInfo",
-        { userId: params.id },
+        { userId: user._id }, // Ensure it uses user._id instead of params.id
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

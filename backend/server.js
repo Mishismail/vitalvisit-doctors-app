@@ -42,7 +42,6 @@ app.use("/api/admin", adminRoutes);
 // Doctor-related routes
 app.use("/api/doctor", doctorRoutes);
 
-
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'frontend', 'build')));
@@ -52,6 +51,23 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
+// Error handling for undefined routes
+app.use((req, res, next) => {
+  const error = new Error(`Not Found - ${req.originalUrl}`);
+  res.status(404);
+  next(error);
+});
+
+// General error handler
+app.use((err, req, res, next) => {
+  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  res.status(statusCode);
+  res.json({
+    message: err.message,
+    stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack,
+  });
+});
+
 // Define the port the server will listen on
 const PORT = process.env.PORT || 8080;
 
@@ -59,3 +75,4 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`.cyan.bold);
 });
+

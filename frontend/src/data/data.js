@@ -38,4 +38,24 @@ export const adminMenu = [
   }
 ];
 
+// Doctor menu configuration
+export const doctorMenu = [
+  {
+    name: "Home", // Display name of the menu item
+    path: "/", // Path to navigate to when the menu item is clicked
+    icon: "fa-solid fa-house", // Icon class for the menu item
+  },
+  {
+    name: "Appointments", // Display name of the menu item
+    path: "/doctor-appointments", // Path to navigate to when the menu item is clicked
+    icon: "fa-solid fa-list", // Icon class for the menu item
+  },
+  {
+    name: "Profile", // Display name of the menu item
+    path: `/doctor/profile/:id`, // Path to navigate to when the menu item is clicked
+    icon: "fa-solid fa-user", // Icon class for the menu item
+  }
+];
+
+
   

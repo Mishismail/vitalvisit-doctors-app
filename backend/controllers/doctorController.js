@@ -1,5 +1,3 @@
-// doctorController.js
-
 const appointmentModel = require("../models/appointmentModel");
 const doctorModel = require("../models/doctorModel");
 const userModel = require("../models/userModel");
@@ -59,6 +57,12 @@ const getDoctorInfoController = async (req, res) => {
   try {
     // Fetch doctor information using user ID
     const doctor = await doctorModel.findOne({ userId: req.body.userId });
+    if (!doctor) {
+      return res.status(404).send({
+        success: false,
+        message: "Doctor not found",
+      });
+    }
     res.status(200).send({
       success: true,
       message: "Doctor Data Fetch Success",
@@ -69,7 +73,7 @@ const getDoctorInfoController = async (req, res) => {
     console.log(error);
     res.status(500).send({
       success: false,
-      error,
+      error: error.message,
       message: "Error in Fetching Doctor Details",
     });
   }
@@ -97,7 +101,7 @@ const updateProfileController = async (req, res) => {
     res.status(500).send({
       success: false,
       message: "Doctor Profile Update Issue",
-      error,
+      error: error.message,
     });
   }
 };
@@ -107,8 +111,14 @@ const updateProfileController = async (req, res) => {
  */
 const getDoctorByIdController = async (req, res) => {
   try {
-    // Fetch doctor information using doctor ID
-    const doctor = await doctorModel.findOne({ _id: req.body.doctorId });
+    // Fetch doctor information using doctor ID from request parameters
+    const doctor = await doctorModel.findById(req.params.id);
+    if (!doctor) {
+      return res.status(404).send({
+        success: false,
+        message: "Doctor not found",
+      });
+    }
     res.status(200).send({
       success: true,
       message: "Single Doctor Info Fetched",
@@ -116,10 +126,10 @@ const getDoctorByIdController = async (req, res) => {
     });
   } catch (error) {
     // Log and send error response
-    console.log(error);
+    console.log("Error in getDoctorByIdController:", error);
     res.status(500).send({
       success: false,
-      error,
+      error: error.message,
       message: "Error in Single Doctor Info",
     });
   }
@@ -205,4 +215,5 @@ module.exports = {
   doctorAppointmentsController,
   updateStatusController,
 };
+
 
