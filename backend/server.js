@@ -1,11 +1,10 @@
-// server.js
-
 const express = require("express");
 const colors = require("colors");
 const morgan = require("morgan");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const path = require("path");
+const favicon = require('serve-favicon');
 const userRoutes = require('./routes/userRoute.js');
 const adminRoutes = require("./routes/adminRoute.js");
 const doctorRoutes = require("./routes/doctorRoute.js");
@@ -30,6 +29,9 @@ app.use(express.json());
 
 // HTTP request logger middleware for node.js
 app.use(morgan("dev"));
+
+// Serve favicon
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 // Routes
 
