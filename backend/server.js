@@ -8,7 +8,7 @@ const favicon = require('serve-favicon');
 const userRoutes = require('./routes/userRoute.js');
 const adminRoutes = require("./routes/adminRoute.js");
 const doctorRoutes = require("./routes/doctorRoute.js");
-const connectDb = require("./config/db");
+const connectDb = require("./config/db.js");
 
 // Load environment variables from .env file
 dotenv.config();
