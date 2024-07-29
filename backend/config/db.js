@@ -1,3 +1,4 @@
+require('dotenv').config();
 const mongoose = require("mongoose");
 const colors = require("colors");
 
@@ -7,15 +8,10 @@ const colors = require("colors");
 const connectDb = async () => {
   try {
     // Check if the DB_URL environment variable is set
-    if (!process.env.DB_URL) {
-      throw new Error("DB_URL environment variable not set");
-    }
-
+    const dbUrl = process.env.DB_URL || 'mongodb+srv://mishdevstack:LIxruoBuhs56qzDY@doctors-app.zhjioxf.mongodb.net/?retryWrites=true&w=majority&appName=doctors-app';
+    
     // Connect to the MongoDB database
-    await mongoose.connect(process.env.DB_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(dbUrl);
 
     // Log the successful connection to the database
     console.log(`MongoDB Connected: ${mongoose.connection.host}`.bgCyan.white);
