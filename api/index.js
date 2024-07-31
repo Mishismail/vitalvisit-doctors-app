@@ -38,6 +38,8 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 // Routes
 
 // User-related routes
+app.get("/", (req, res) => res.send("Express on Vercel"));
+
 app.use("/api/user", userRoutes);
 
 // Admin-related routes
