@@ -1,3 +1,5 @@
+//index.js
+
 const express = require("express");
 const colors = require("colors");
 const morgan = require("morgan");
@@ -46,10 +48,10 @@ app.use("/api/doctor", doctorRoutes);
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'frontend', 'build')));
+  app.use(express.static(path.join(__dirname, '..', 'frontend', 'build')));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'));
   });
 }
 
@@ -62,12 +64,45 @@ app.use((req, res, next) => {
 
 // General error handler
 app.use((err, req, res, next) => {
-  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-  res.status(statusCode);
-  res.json({
+  let statusCode = res.statusCode === 200 ? 500 : res.statusCode;
+  let errorResponse = {
     message: err.message,
     stack: process.env.NODE_ENV === 'production' ? '🥞' : err.stack,
-  });
+  };
+
+  // Define specific error types
+  switch (err.name) {
+    case 'ValidationError':
+      statusCode = 400;
+      errorResponse.message = 'Validation Error';
+      errorResponse.details = err.errors;
+      break;
+    case 'CastError':
+      statusCode = 400;
+      errorResponse.message = 'Invalid ID format';
+      break;
+    case 'JsonWebTokenError':
+      statusCode = 401;
+      errorResponse.message = 'Invalid token';
+      break;
+    case 'TokenExpiredError':
+      statusCode = 401;
+      errorResponse.message = 'Token expired';
+      break;
+    case 'SyntaxError':
+      statusCode = 400;
+      errorResponse.message = 'Invalid JSON syntax';
+      break;
+    default:
+      if (err.code === 11000) { // MongoDB duplicate key error
+        statusCode = 400;
+        errorResponse.message = 'Duplicate key error';
+        errorResponse.keyValue = err.keyValue;
+      }
+      break;
+  }
+
+  res.status(statusCode).json(errorResponse);
 });
 
 // Define the port the server will listen on
@@ -78,3 +113,5 @@ app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`.cyan.bold);
 });
 
+// Export the app for serverless deployment
+module.exports = app;
