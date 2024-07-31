@@ -16,7 +16,7 @@ const Login = () => {
   const submitHandler = async (values) => {
     try {
       dispatch(showLoading());
-      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}api/user/login`, values);
+      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}api/login`, values);
       dispatch(hideLoading());
       if (data.success) {
         localStorage.setItem("token", data.token);
