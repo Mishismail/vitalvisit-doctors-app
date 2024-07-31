@@ -70,7 +70,7 @@ function App() {
               }
             />
             <Route
-              path="/appointments"
+              path="/user/appointments"
               element={
                 <ProtectedRoute roles={['user']}>
                   <Appointments />
@@ -78,7 +78,7 @@ function App() {
               }
             />
             <Route
-              path="/doctor-appointments"
+              path="/doctor/appointments"
               element={
                 <ProtectedRoute roles={['doctor']}>
                   <DoctorAppointments />

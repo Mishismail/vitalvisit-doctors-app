@@ -17,7 +17,7 @@ const Register = () => {
   const submitHandler = async (values) => {
     try {
       dispatch(showLoading());
-      const { data } = await axios.post("/api/user/register", values);
+      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}api/user/register`, values);
       dispatch(hideLoading());
       if (data.success) {
         message.success("Registration Successful");
@@ -181,6 +181,7 @@ const Register = () => {
 };
 
 export default Register;
+
 
 
 

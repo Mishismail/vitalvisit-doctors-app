@@ -1,5 +1,7 @@
 //Login.js 
 
+// Login.js
+
 import { Form, Input, message } from "antd";
 import axios from "axios";
 import React from "react";
@@ -14,7 +16,7 @@ const Login = () => {
   const submitHandler = async (values) => {
     try {
       dispatch(showLoading());
-      const { data } = await axios.post("/api/user/login", values);
+      const { data } = await axios.post(`${process.env.REACT_APP_API_URL}api/user/login`, values);
       dispatch(hideLoading());
       if (data.success) {
         localStorage.setItem("token", data.token);

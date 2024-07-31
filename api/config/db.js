@@ -11,10 +11,7 @@ const connectDb = async () => {
     const dbUrl = process.env.DB_URL || 'mongodb+srv://mishdevstack:LIxruoBuhs56qzDY@doctors-app.zhjioxf.mongodb.net/?retryWrites=true&w=majority&appName=doctors-app';
     
     // Connect to the MongoDB database
-    await mongoose.connect(dbUrl, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(dbUrl);
 
     // Log the successful connection to the database
     console.log(`MongoDB Connected: ${mongoose.connection.host}`.bgCyan.white);
@@ -26,3 +23,4 @@ const connectDb = async () => {
 };
 
 module.exports = connectDb;
+
