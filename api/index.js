@@ -23,15 +23,21 @@ const app = express();
 
 // Enable Cross-Origin Resource Sharing (CORS)
 const corsOptions = {
-  origin: 'https://vitalvisit-doctors-app.vercel.app', // Your frontend URL
+  origin: [
+    'http://localhost:3000', // Allow your local development frontend
+    'https://vitalvisit-doctors-app.vercel.app' // Allow your deployed frontend
+  ],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, // Allow credentials if needed
 };
 
 // Middlewares
 
-// Enable Cross-Origin Resource Sharing (CORS)
+// Enable Cross-Origin Resource Sharing (CORS) for all routes
 app.use(cors(corsOptions));
+
+// Handle preflight requests for all routes
+app.options('*', cors(corsOptions));
 
 // Parse incoming JSON requests
 app.use(express.json());
@@ -46,9 +52,6 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 // User-related routes
 app.get("/", (req, res) => res.send("Express on Vercel"));
-
-app.post("/api/user/login", require('./controllers/userController').loginController);
-
 
 app.use("/api/user", userRoutes);
 
@@ -118,3 +121,4 @@ app.listen(PORT, () => {
 
 // Export the app for serverless deployment
 module.exports = app;
+
