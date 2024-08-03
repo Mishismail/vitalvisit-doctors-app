@@ -7,12 +7,12 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import Layout from "./../components/Layout";
-import logError from "../utils/logError";  // Importing the custom logError function
+import logError from "../utils/logError"; // Importing the custom logError function
 
 // Function to get appointments
 const getAppointments = async (setAppointments) => {
   try {
-    const res = await axios.get("/api/user/user-appointments", {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/user-appointments`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -21,14 +21,14 @@ const getAppointments = async (setAppointments) => {
       setAppointments(res.data.data); // Set appointments state with fetched data
     }
   } catch (error) {
-    logError(error);  // Using custom logError function
+    logError(error); // Using custom logError function
   }
 };
 
 // Function to get doctors
 const getDoctors = async (setDoctors) => {
   try {
-    const res = await axios.get("/api/user/getAllDoctors", {
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/user/getAllDoctors`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -37,7 +37,7 @@ const getDoctors = async (setDoctors) => {
       setDoctors(res.data.data); // Set doctors state with fetched data
     }
   } catch (error) {
-    logError(error);  // Using custom logError function
+    logError(error); // Using custom logError function
   }
 };
 
@@ -59,7 +59,7 @@ const handleBooking = async (
     dispatch(showLoading()); // Show loading indicator
     const doctor = doctors.find((doc) => doc._id === selectedDoctor);
     const res = await axios.post(
-      "/api/user/booking-availability",
+      `${process.env.REACT_APP_API_URL}/api/user/booking-availability`,
       {
         doctorId: selectedDoctor,
         date: date.format("YYYY-MM-DD"),
@@ -73,7 +73,7 @@ const handleBooking = async (
     );
     if (res.data.success) {
       const bookingRes = await axios.post(
-        "/api/user/book-appointment",
+        `${process.env.REACT_APP_API_URL}/api/user/book-appointment`,
         {
           doctorId: selectedDoctor,
           userId: user._id,
@@ -101,7 +101,7 @@ const handleBooking = async (
     }
   } catch (error) {
     dispatch(hideLoading()); // Hide loading indicator
-    logError("Error during booking:", error);  // Using custom logError function
+    logError("Error during booking:", error); // Using custom logError function
     message.error("Error during booking. Please try again."); // Show error message
   }
 };
@@ -210,3 +210,4 @@ const Appointments = () => {
 
 export default Appointments; // Export the Appointments component as the default export
 export { getAppointments, handleBooking, getDoctors }; // Export utility functions
+

@@ -20,7 +20,7 @@ const ApplyDoctor = () => {
       const starttime = values.starttime.format("HH:mm");
       const endtime = values.endtime.format("HH:mm");
       const res = await axios.post(
-        "/api/user/apply-doctor",
+        `${process.env.REACT_APP_API_URL}/api/user/apply-doctor`,
         {
           ...values,
           userId: user._id,
@@ -190,4 +190,5 @@ const ApplyDoctor = () => {
 };
 
 export default ApplyDoctor;
+
 

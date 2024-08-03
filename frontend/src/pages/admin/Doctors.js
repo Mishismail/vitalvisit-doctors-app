@@ -19,7 +19,7 @@ const Doctors = () => {
    */
   const getDoctors = async () => {
     try {
-      const res = await axios.get("/api/admin/getAllDoctors", {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/getAllDoctors`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -44,7 +44,7 @@ const Doctors = () => {
   const handleAccountStatus = async (record, status) => {
     try {
       const res = await axios.post(
-        "/api/admin/changeAccountStatus",
+        `${process.env.REACT_APP_API_URL}/api/admin/changeAccountStatus`,
         { doctorId: record._id, status },
         {
           headers: {

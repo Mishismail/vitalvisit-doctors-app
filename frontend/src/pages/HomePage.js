@@ -16,7 +16,7 @@ const HomePage = () => {
   const getUserData = async () => {
     try {
       const res = await axios.get(
-        "/api/user/getAllDoctors",
+        `${process.env.REACT_APP_API_URL}/api/user/getAllDoctors`,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -35,7 +35,7 @@ const HomePage = () => {
   const handleAccountStatus = async (doctor, status) => {
     try {
       const res = await axios.post(
-        "/api/admin/changeAccountStatus",
+        `${process.env.REACT_APP_API_URL}/api/admin/changeAccountStatus`,
         { doctorId: doctor._id, status },
         {
           headers: {

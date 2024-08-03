@@ -1,4 +1,4 @@
-//Login.js ${process.env.REACT_APP_API_URL}
+//Login.js
 
 import { Form, Input, message } from "antd";
 import axios from "axios";

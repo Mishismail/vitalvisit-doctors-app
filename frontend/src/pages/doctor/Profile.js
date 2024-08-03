@@ -5,7 +5,7 @@ import axios from "axios";
 import moment from "moment/moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom"; // Removed useParams import
+import { useNavigate } from "react-router-dom";
 import { hideLoading, showLoading } from "../../redux/features/alertSlice";
 import Layout from "./../../components/Layout";
 
@@ -22,7 +22,7 @@ const Profile = () => {
       const starttime = values.starttime.format("HH:mm");
       const endtime = values.endtime.format("HH:mm");
       const res = await axios.post(
-        "/api/doctor/updateProfile",
+        `${process.env.REACT_APP_API_URL}/api/doctor/updateProfile`,
         {
           ...values,
           userId: user._id,
@@ -53,7 +53,7 @@ const Profile = () => {
   const getDoctorInfo = async () => {
     try {
       const res = await axios.post(
-        "/api/doctor/getDoctorInfo",
+        `${process.env.REACT_APP_API_URL}/api/doctor/getDoctorInfo`,
         { userId: user._id }, // Ensure it uses user._id
         {
           headers: {
@@ -85,7 +85,7 @@ const Profile = () => {
           initialValues={{
             ...doctor,
             starttime: moment(doctor.starttime, "HH:mm"),
-            endtime: moment(doctor.endtime, "HH:mm")
+            endtime: moment(doctor.endtime, "HH:mm"),
           }}
         >
           <h4 className="">Personal Details : </h4>

@@ -12,7 +12,7 @@ const Users = () => {
   // Function to fetch users from the API
   const getUsers = async () => {
     try {
-      const res = await axios.get("/api/admin/getAllUsers", {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/admin/getAllUsers`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -27,7 +27,7 @@ const Users = () => {
 
   // Function to handle blocking/unblocking a user
   const handleBlockUser = async (userId, isBlocked) => {
-    const endpoint = isBlocked ? "/api/admin/unblockUser" : "/api/admin/blockUser";
+    const endpoint = isBlocked ? `${process.env.REACT_APP_API_URL}/api/admin/unblockUser` : `${process.env.REACT_APP_API_URL}/api/admin/blockUser`;
     try {
       const res = await axios.post(
         endpoint,
@@ -97,5 +97,6 @@ const Users = () => {
 };
 
 export default Users;
+
 
 

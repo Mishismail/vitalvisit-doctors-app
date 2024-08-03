@@ -1,5 +1,4 @@
 // NotificationPage.js
-
 import { message, Tabs } from "antd";
 import axios from "axios";
 import React, { useState } from "react";
@@ -21,7 +20,7 @@ const NotificationPage = () => {
     try {
       dispatch(showLoading()); // Show loading indicator
       const res = await axios.post(
-        "/api/user/get-all-notification",
+        `${process.env.REACT_APP_API_URL}/api/user/get-all-notification`,
         {
           userId: user._id,
         },
@@ -55,7 +54,7 @@ const NotificationPage = () => {
     try {
       dispatch(showLoading()); // Show loading indicator
       const res = await axios.post(
-        "/api/user/delete-all-notification",
+        `${process.env.REACT_APP_API_URL}/api/user/delete-all-notification`,
         {
           userId: user._id,
         },
@@ -192,4 +191,5 @@ const NotificationPage = () => {
 };
 
 export default NotificationPage; // Export the NotificationPage component as the default export
+
 
