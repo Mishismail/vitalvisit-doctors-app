@@ -1,3 +1,5 @@
+//ProtectedRoute.js
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,7 +29,7 @@ export default function ProtectedRoute({ children, roles }) {
         dispatch(showLoading());
         // Fetch user data with the token
         const { data } = await axios.post(
-          "/api/user/getUserData",
+          `${process.env.REACT_APP_API_URL}/api/user/getUserData`,
           {},
           {
             headers: {
