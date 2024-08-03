@@ -45,14 +45,15 @@ app.use(express.json());
 // HTTP request logger middleware for node.js
 app.use(morgan("dev"));
 
-// Serve favicon
+// Serve favicon from the public directory
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
+// Serve static files from the public directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 
 // User-related routes
-app.get("/", (req, res) => res.send("Express on Vercel"));
-
 app.use("/api/user", userRoutes);
 
 // Admin-related routes
@@ -60,6 +61,9 @@ app.use("/api/admin", adminRoutes);
 
 // Doctor-related routes
 app.use("/api/doctor", doctorRoutes);
+
+// Default route for the root
+app.get("/", (req, res) => res.send("Express on Vercel"));
 
 // Error handling for undefined routes
 app.use((req, res, next) => {
@@ -121,4 +125,5 @@ app.listen(PORT, () => {
 
 // Export the app for serverless deployment
 module.exports = app;
+
 
