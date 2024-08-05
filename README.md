@@ -225,7 +225,11 @@ The application will be deployed using [Vercel](https://vercel.com/) for both th
 - The application has been deployed using Vercel.
 - **Frontend** and **Backend**: Both are deployed together in the same root file using Vercel's platform-as-a-service (PaaS) capabilities.
             **Motivation**: This allows for seamless integration, better scalability, and maintainability.
+<<<<<<< HEAD
 - **Deployment Link**: [Doctor Appointment Booking System](https://vitalvisit-doctors-app.vercel.app/)
+=======
+- **Deployment Link**: [Vital Visit Doctor Appointment Booking System](https://vitalvisit-doctors-app.vercel.app/)
+>>>>>>> 48f8d344cdde3e953971015b54e4773a80b917ea
 
 ## Screenshots
 
